@@ -13,6 +13,10 @@ html {
 body {
   margin: 0;
 }
+p{
+padding-left: 10%;
+padding-right: 10%;
+}
 article,
 aside,
 details,
