@@ -1,0 +1,43 @@
+---
+title: "Wikipedia dataset"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+# combine csv files
+df <- list.files(full.names = TRUE) %>% 
+  lapply(read_csv) %>% 
+  bind_cols()
+
+dates <- c()
+
+for (i in 1:39) { 
+  dates <- c(dates, paste("Date", i, sep = ""))}
+
+df <- df[, !(colnames(df) %in% dates)]
+
+head(df)
+```
+
+```{r, eval = FALSE}
+info_raw <- read_csv("info.csv")
+
+proper_order <- 
+  info_raw$X1 %>%
+  match(info_raw$article)
+
+reordered_info <- info_raw[proper_order, c("views", "daily average", "edits", "editors", "size", "watchers")]
+
+info <- cbind(info_raw$X1, reordered_info)
+head(info)
+
+write_csv(info, path = "full_wiki.csv", col_names = TRUE)
+```
+
